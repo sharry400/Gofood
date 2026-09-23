@@ -13,7 +13,8 @@ const Home = () => {
     useEffect(() => {
         const loadFoodItems = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/foodData', {
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const response = await fetch(`${apiUrl}/api/foodData`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 })
@@ -45,7 +46,7 @@ const Home = () => {
                     <Navbar />
                 </div>
                 <div>
-                <Carousal searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+                    <Carousal searchTerm={searchTerm} onSearchChange={setSearchTerm} />
                 </div>
                 <div className='m-3'>
                     {loading && <p>Loading food items...</p>}

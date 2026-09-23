@@ -13,7 +13,8 @@ const MyOrders = () => {
                     return
                 }
 
-                const response = await fetch(`http://localhost:5000/api/myOrderData?email=${encodeURIComponent(email)}`)
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const response = await fetch(`${apiUrl}/api/myOrderData?email=${encodeURIComponent(email)}`)
                 const json = await response.json()
 
                 if (json.success) {

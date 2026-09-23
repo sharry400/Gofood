@@ -7,12 +7,13 @@ const Signup = () => {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", location: "", confirmPassword: "" })
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if(credentials.password !== credentials.confirmPassword) {
+        if (credentials.password !== credentials.confirmPassword) {
             alert("Passwords do not match")
             return
         }
         try {
-            const response = await fetch("http://localhost:5000/api/auth/createuser", {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const response = await fetch(`${apiUrl}/api/foodData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ const Signup = () => {
                 alert("Enter Valid Credentials")
                 return
             }
-            else{
+            else {
                 localStorage.setItem('token', json.authToken)
                 nav('/login')
                 alert("Signup successful")
@@ -49,7 +50,7 @@ const Signup = () => {
                 <div
                     className="card text-white shadow-lg"
                     style={{
-                        maxWidth: "500px", 
+                        maxWidth: "500px",
                         width: "100%",
                         backgroundColor: "#212529",
                         border: "1px solid #198754",
