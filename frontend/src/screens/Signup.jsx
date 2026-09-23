@@ -13,7 +13,7 @@ const Signup = () => {
         }
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            const response = await fetch(`${apiUrl}/api/foodData`, {
+            const response = await fetch(`${apiUrl}/api/auth/createuser`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -28,14 +28,11 @@ const Signup = () => {
             const json = await response.json()
             console.log(json)
             if (!json.success) {
-                alert("Enter Valid Credentials")
+                alert(json.errors || "Enter Valid Credentials")
                 return
             }
-            else {
-                localStorage.setItem('token', json.authToken)
-                nav('/login')
-                alert("Signup successful")
-            }
+            nav('/login')
+            alert("Signup successful")
         } catch (error) {
             console.error(error)
             alert("Something went wrong")

@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault()
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}/api/foodData`, {
+      const response = await fetch(`${apiUrl}/api/auth/loginuser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ const Login = () => {
       let json = await response.json()
       console.log(json)
       if (!json.success) {
-        alert("Enter Valid Credentials")
+        alert(json.errors || "Enter Valid Credentials")
         return
       }
       localStorage.setItem('authToken', json.authToken)

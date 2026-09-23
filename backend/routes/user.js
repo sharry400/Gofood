@@ -41,21 +41,24 @@ router.post('/createuser',
     })
 router.post('/loginuser',
     [
-        body('name', 'Name must be at least 3 characters long').isLength({ min: 3 }),
         body('email', 'Please enter a valid email').isEmail(),
         body('password', 'Password must be at least 8 characters long').isLength({ min: 8 })
     ],
     async (req, res) => {
         const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() })
+        }
+
         try {
             let email = req.body.email
             let userData = await User.findOne({ email })
             if (!userData) {
-                return res.status(400).json({ errors: "Please Login with Correct Credentials" })
+                return res.status(400).json({ success: false, errors: "Please Login with Correct Credentials" })
             }
             const pwdcompare = await bcrypt.compare(req.body.password, userData.password)
             if (!pwdcompare) {
-                return res.status(400).json({ errors: "Please Login with Correct Credentials" })
+                return res.status(400).json({ success: false, errors: "Please Login with Correct Credentials" })
 
             }
             const data = {

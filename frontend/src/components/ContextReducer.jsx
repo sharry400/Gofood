@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 
 const CartstateContext = createContext()
 const CartDispatchContext = createContext()
+const CART_STORAGE_KEY = 'gofood_cart'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -46,7 +47,23 @@ const reducer = (state, action) => {
 }
 
 export const CartProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, [])
+    const [state, dispatch] = useReducer(reducer, [], () => {
+        try {
+            const savedCart = localStorage.getItem(CART_STORAGE_KEY)
+            return savedCart ? JSON.parse(savedCart) : []
+        } catch (error) {
+            console.error('Unable to load cart from storage:', error)
+            return []
+        }
+    })
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state))
+        } catch (error) {
+            console.error('Unable to save cart to storage:', error)
+        }
+    }, [state])
 
     return (
         <CartDispatchContext.Provider value={dispatch}>

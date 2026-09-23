@@ -49,7 +49,7 @@ const MyCart = () => {
         setIsCheckingOut(true)
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            const response = await fetch(`${apiUrl}/api/foodData`, {
+            const response = await fetch(`${apiUrl}/api/orderData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
