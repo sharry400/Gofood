@@ -98,7 +98,7 @@ const MyCart = () => {
                             {cartItems.map((item, index) => (
                                 <div key={`${item.id}-${item.size}-${index}`} className='card mb-3'>
                                     <div className='card-body d-flex justify-content-between align-items-center'>
-                                        <div className='d-flex align-items-center'>
+                                        <div className='d-flex align-items-center gap-3 m-1'>
                                             <img src={item.img} alt={item.name} style={{ width: '80px', height: '80px', objectFit: 'cover' }} className='me-3' />
                                             <div>
                                                 <h5>{item.name}</h5>
